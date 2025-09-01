@@ -4,6 +4,8 @@ import { About } from './pages/About'
 import { Signin } from './pages/Signin'
 import { Signup } from './pages/Signup'
 import { Dashboard } from './pages/Dashboard'
+import { Header } from './components/Header'
+import { Projects } from './pages/Projects'
 
 
 
@@ -11,7 +13,7 @@ import { Dashboard } from './pages/Dashboard'
 const App = () => {
   return (
     <BrowserRouter>
-
+      <Header/>
     <Routes>
 
       <Route path='/' element={<Home/>}></Route>
@@ -19,6 +21,7 @@ const App = () => {
       <Route path='/sign-in' element={<Signin/>}></Route>
       <Route path='/sign-up' element={<Signup/>}></Route>
       <Route path='/dashboard' element={<Dashboard/>}></Route>
+      <Route path='/projects' element={<Projects/>}></Route>
 
     </Routes>
 
