@@ -6,7 +6,7 @@ import  Signup   from './pages/Signup'
 import { Dashboard } from './pages/Dashboard'
 import { Header } from './components/Header'
 import { Projects } from './pages/Projects'
-
+import  Footer  from './components/Footer'
 
 
 
@@ -24,6 +24,7 @@ const App = () => {
       <Route path='/projects' element={<Projects/>}></Route>
 
     </Routes>
+    <Footer/>
 
     </BrowserRouter>
   )
