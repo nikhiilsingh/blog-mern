@@ -1,10 +1,20 @@
 import React, { useState } from "react";
 import { Link , useNavigate} from "react-router-dom";
+import {useDispatch , useSelector} from 'react-redux';
+import { signInStart , signInSuccess , signInFalure } from "../redux/user/userSlice";
+
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
+
+  // Before useSelector - BTR 
+  // const [errorMessage, setErrorMessage] = useState(null);
+  // const [loading, setLoading] = useState(false);
+  // ATR
+  const{loading,error:errorMessage} = useSelector(state=>state.user);
+
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,12 +27,16 @@ export default function SignIn() {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
-      return setErrorMessage("Please fill out all fields");
+      // return setErrorMessage("Please fill out all fields"); BTR
+      return dispatch(signInFalure('Please fill all the fields'))
     }
 
     try {
-      setLoading(true);
-      setErrorMessage(null);
+      // Before the redux -BTR
+      // setLoading(true);
+      // setErrorMessage(null);
+      // After use the redux -ATR
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -30,16 +44,23 @@ export default function SignIn() {
       });
       const data = await res.json();
       if (data.success === false) {
-        return setErrorMessage(data.message);
+        // BTR
+        // return setErrorMessage(data.message);
+        // ATR
+        dispatch(signInFalure(data.message));
       }
       if(res.ok){
+        dispatch(signInSuccess(data));
         navigate('/')
       }
     } catch (error) {
-      setErrorMessage(error.message);
-    }finally{
-      setLoading(false);
+      dispatch(signInFalure(error.message));
     }
+    // } catch (error) {
+    //   setErrorMessage(error.message);
+    // }finally{
+    //   setLoading(false);
+    // }
   };
 
   return (
